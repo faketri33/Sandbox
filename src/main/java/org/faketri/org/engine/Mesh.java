@@ -2,41 +2,63 @@ package org.faketri.org.engine;
 
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import org.lwjgl.system.MemoryUtil;
 
 public class Mesh {
-    private final int vaoId;
-    private final int vboId;
-    private final int eboId;
-    private final int vertexCount;
+    private int vaoId;
+    private int vboId;
+    private int tboId;
+    private int eboId;
+    private int vertexCount;
+
+    private float[] vertices;
+    private float[] texCoords;
+    private int[] indices;
 
     public Mesh(float[] vertices, int[] indices) {
-        vertexCount = indices.length;
+        this.vertices = vertices;
+        this.indices = indices;
+        this.vertexCount = indices.length;
+    }
 
+    public Mesh(float[] vertices, float[] texCoords, int[] indices) {
+        this.vertices = vertices;
+        this.texCoords = texCoords;
+        this.indices = indices;
+        this.vertexCount = indices.length;
+    }
+
+    public void uploadToGPU() {
         vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
 
-        // VBO
+        // Vertex positions
         vboId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        FloatBuffer vertexBuffer = MemoryUtil.memAllocFloat(vertices.length);
-        vertexBuffer.put(vertices).flip();
-        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 2, GL_FLOAT, false, 2 * Float.BYTES, 0);
+        glBufferData(GL_ARRAY_BUFFER, vertices, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(0);
-        MemoryUtil.memFree(vertexBuffer);
 
-        // EBO
+        // Texture coordinates
+        if (texCoords != null) {
+            tboId = glGenBuffers();
+            glBindBuffer(GL_ARRAY_BUFFER, tboId);
+            glBufferData(GL_ARRAY_BUFFER, texCoords, GL_STATIC_DRAW);
+            glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
+            glEnableVertexAttribArray(1);
+        }
+
+        // Indices
         eboId = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
-        IntBuffer indexBuffer = MemoryUtil.memAllocInt(indices.length);
-        indexBuffer.put(indices).flip();
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer, GL_STATIC_DRAW);
-        MemoryUtil.memFree(indexBuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
 
+        // Unbind
         glBindVertexArray(0);
+
+        // Освобождение данных CPU-стороны
+        this.vertices = null;
+        this.texCoords = null;
+        this.indices = null;
     }
 
     public void render() {
@@ -45,19 +67,42 @@ public class Mesh {
         glBindVertexArray(0);
     }
 
-    public int getVaoId() {
-        return vaoId;
-    }
-
-    public int getVboId() {
-        return vboId;
-    }
-
-    public int getEboId() {
-        return eboId;
+    public void cleanup() {
+        glDeleteBuffers(vboId);
+        glDeleteBuffers(tboId);
+        glDeleteBuffers(eboId);
+        glDeleteVertexArrays(vaoId);
     }
 
     public int getVertexCount() {
         return vertexCount;
+    }
+
+    public void setVertexCount(int vertexCount) {
+        this.vertexCount = vertexCount;
+    }
+
+    public float[] getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(float[] vertices) {
+        this.vertices = vertices;
+    }
+
+    public float[] getTexCoords() {
+        return texCoords;
+    }
+
+    public void setTexCoords(float[] texCoords) {
+        this.texCoords = texCoords;
+    }
+
+    public int[] getIndices() {
+        return indices;
+    }
+
+    public void setIndices(int[] indices) {
+        this.indices = indices;
     }
 }

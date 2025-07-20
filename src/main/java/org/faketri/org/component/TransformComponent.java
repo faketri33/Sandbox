@@ -4,11 +4,11 @@ import org.joml.Matrix4f;
 
 public class TransformComponent implements Component{
 
-    private float x, y, rotation, scale = 1.0f;
+    private float x, y, z, rotation, scale = 1.0f;
 
     public Matrix4f getModelMatrix() {
         return new Matrix4f()
-                .translate(x, y, 0)
+                .translate(x, y, z)
                 .rotateZ(rotation)
                 .scale(scale);
     }
@@ -43,5 +43,13 @@ public class TransformComponent implements Component{
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
     }
 }

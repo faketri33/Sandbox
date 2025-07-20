@@ -1,4 +1,4 @@
-package org.faketri.org.entity;
+package org.faketri.org.engine;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;

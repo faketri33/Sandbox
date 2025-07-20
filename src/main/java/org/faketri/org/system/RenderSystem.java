@@ -3,27 +3,18 @@ package org.faketri.org.system;
 import org.faketri.org.component.MaterialComponent;
 import org.faketri.org.component.MeshComponent;
 import org.faketri.org.component.TransformComponent;
-import org.faketri.org.entity.Shader;
+import org.faketri.org.engine.Shader;
 import org.faketri.org.entity.Entity;
 import org.faketri.org.entity.EntityManager;
-import org.faketri.org.entity.Texture;
+import org.faketri.org.engine.Texture;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
 
 public class RenderSystem implements System {
 
-    private final int width, height;
-
-    public RenderSystem(int width, int height) {
-        this.width = width; this.height = height;
-        glViewport(0,0,width,height);
-        glEnable(GL_DEPTH_TEST);
-    }
+    private int width = 1280, height = 720;
 
     public void clear() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

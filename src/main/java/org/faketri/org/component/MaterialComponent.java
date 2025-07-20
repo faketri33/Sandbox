@@ -1,7 +1,7 @@
 package org.faketri.org.component;
 
-import org.faketri.org.entity.Shader;
-import org.faketri.org.entity.Texture;
+import org.faketri.org.engine.Shader;
+import org.faketri.org.engine.Texture;
 
 public class MaterialComponent implements Component {
     private Texture texture;

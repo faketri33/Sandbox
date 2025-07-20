@@ -1,4 +1,6 @@
-package org.faketri.org.engine;
+package org.faketri.org.core;
+
+import org.faketri.org.engine.Mesh;
 
 import java.io.IOException;
 import java.nio.file.Files;

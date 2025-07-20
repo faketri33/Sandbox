@@ -1,6 +1,7 @@
-package org.faketri.org.engine;
+package org.faketri.org.core;
 
-import org.faketri.org.entity.Texture;
+import org.faketri.org.engine.Mesh;
+import org.faketri.org.engine.Texture;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBImage;
 

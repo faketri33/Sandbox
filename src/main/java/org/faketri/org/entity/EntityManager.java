@@ -7,8 +7,8 @@ public class EntityManager {
     private final Map<Integer, Entity> entities = new HashMap<>();
     private Integer nextId = 0;
 
-    public Entity createEntity() {
-        Entity e = new Entity(nextId++);
+    public Entity createEntity(String name) {
+        Entity e = new Entity(nextId++, name);
         entities.put(e.getId(), e);
         return e;
     }

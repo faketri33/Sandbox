@@ -30,7 +30,7 @@ public class WindowsHandler {
         GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 3);
         GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
 
-        window = glfwCreateWindow(720, 400, "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(720, 400, "Sandbox!", NULL, NULL);
 
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
